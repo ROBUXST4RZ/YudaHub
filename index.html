@@ -3,271 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <title>Yuda Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      padding: 0;
-      background: #0a0a0a;
-      font-family: 'Segoe UI', sans-serif;
+      background: black;
+      height: 100vh;
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: white;
-      overflow-x: hidden;
     }
-    .section {
-      padding: 60px 20px;
+
+    .container {
       text-align: center;
-      animation: fadeInUp 1.2s ease;
+      max-width: 90%;
     }
+
     h1 {
-      font-size: 3em;
-      color: #ff2c75;
-      text-shadow: 0 0 15px #ff2c75;
-      margin-bottom: 20px;
+      font-size: 5em;
+      color: red;
+      text-shadow: 0 0 10px red,
+                   0 0 20px red,
+                   0 0 40px crimson,
+                   0 0 60px darkred,
+                   0 0 80px red;
+      opacity: 0;
+      transform: translateY(0);
+      animation: fadeIn 3s ease-in-out forwards, neonPulse 2s infinite alternate ease-in-out;
+      animation-delay: 0s, 3s;
     }
-    h2 {
-      font-size: 2em;
-      margin-top: 40px;
-      color: #ff4d4d;
-      text-shadow: 0 0 10px #ff4d4d;
-    }
-    .code-box {
-      background: #1a1a1a;
-      border: 1px solid #444;
-      padding: 20px;
-      border-radius: 10px;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 700px;
-      text-align: left;
-      overflow-x: auto;
-      font-family: monospace;
-      font-size: 0.95em;
-      box-shadow: 0 0 15px #111;
-      position: relative;
-    }
-    .copy-btn {
-      background: #222;
-      color: #fff;
-      border: 1px solid #666;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: all 0.3s ease;
-    }
-    .copy-btn:hover {
-      background: #00ffcc;
-      color: #000;
-    }
-    .copy-success {
-      color: #0f0;
-      font-size: 0.9em;
-      margin-top: 5px;
-      display: none;
-    }
-    @keyframes fadeInUp {
+
+    @keyframes fadeIn {
       0% {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(0);
       }
       100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-30px);
       }
+    }
+
+    @keyframes neonPulse {
+      from {
+        text-shadow: 0 0 10px red,
+                     0 0 20px red,
+                     0 0 40px crimson;
+      }
+      to {
+        text-shadow: 0 0 20px red,
+                     0 0 40px red,
+                     0 0 60px crimson,
+                     0 0 80px darkred;
+      }
+    }
+
+    #progress-container {
+      width: 80vw;
+      max-width: 600px;
+      margin: 40px auto 0;
+      display: none;
+    }
+
+    #progress-text {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      color: #ccc;
+    }
+
+    #progress-bar {
+      width: 0%;
+      height: 25px;
+      background: red;
+      border-radius: 20px;
+      transition: width 1s linear;
+    }
+
+    #progress-bg {
+      background: #222;
+      width: 100%;
+      height: 25px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 5px #444;
+    }
+
+    #percentage {
+      margin-top: 10px;
+      font-size: 1em;
+      color: #ff6666;
+    }
+
+    #destinationBtn {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background-color: grey;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      opacity: 0;
+      transition: background-color 0.3s ease, opacity 1s ease;
+      cursor: not-allowed;
+    }
+
+    #destinationBtn.active {
+      background-color: red;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div class="section">
-    <h1>Yuda Hub</h1>
-    <h2>Redz Hub</h2>
-    <div class="code-box" id="redzScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
-    </div>
-    <button class="copy-btn" onclick="copyRedz()">Copy Script</button>
-    <div class="copy-success" id="redzCopySuccess">Copied to clipboard!</div>
-  </div>
+  <div class="container">
+    <h1 id="title">Yuda Hub</h1>
 
-  <div class="section">
-    <h2>Aqua Racer</h2>
-    <div class="code-box" id="aquaRacerScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/AquaRacer"))()
+    <div id="progress-container">
+      <div id="progress-text">Initializing...</div>
+      <div id="progress-bg">
+        <div id="progress-bar"></div>
+      </div>
+      <div id="percentage">0%</div>
+      <button id="destinationBtn">Go to Destination →</button>
     </div>
-    <button class="copy-btn" onclick="copyAquaRacer()">Copy Script</button>
-    <div class="copy-success" id="aquaRacerCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Fly V3</h2>
-    <div class="code-box" id="flyV3Script">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-    </div>
-    <button class="copy-btn" onclick="copyFlyV3()">Copy Script</button>
-    <div class="copy-success" id="flyV3CopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Super Ring V4</h2>
-    <div class="code-box" id="superRingV4Script">
-loadstring(game:HttpGet("https://rscripts.net/raw/super-ring-parts-v4-by-lukas_1741980981842_td0ummjymf.txt",true))()
-    </div>
-    <button class="copy-btn" onclick="copySuperRingV4()">Copy Script</button>
-    <div class="copy-success" id="superRingV4CopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Yarhm MM2 Script</h2>
-    <div class="code-box" id="yarhmMM2Script">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/yarhm.lua"))()
-    </div>
-    <button class="copy-btn" onclick="copyYarhmMM2()">Copy Script</button>
-    <div class="copy-success" id="yarhmMM2CopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Dig It Script</h2>
-    <div class="code-box" id="digItScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/alyssagithub/Scripts/refs/heads/main/FrostByte/Initiate.lua"))()
-    </div>
-    <button class="copy-btn" onclick="copyDigIt()">Copy Script</button>
-    <div class="copy-success" id="digItCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Dessert Detector Inf Money</h2>
-    <div class="code-box" id="dessertDetectorScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/refs/heads/main/DesertDetectors"))()
-    </div>
-    <button class="copy-btn" onclick="copyDessertDetector()">Copy Script</button>
-    <div class="copy-success" id="dessertDetectorCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Speed Hub Fisch</h2>
-    <div class="code-box" id="speedHubScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-    </div>
-    <button class="copy-btn" onclick="copySpeedHub()">Copy Script</button>
-    <div class="copy-success" id="speedHubCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Rochips Panel</h2>
-    <div class="code-box" id="rochipsPanelScript">
-loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Rochips-Universal-21865"))()
-    </div>
-    <button class="copy-btn" onclick="copyRochipsPanel()">Copy Script</button>
-    <div class="copy-success" id="rochipsPanelCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Drill Digging Simulator</h2>
-    <div class="code-box" id="drillDiggingSimulatorScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Vermzky/VermzHub/refs/heads/main/FREE", true))()
-    </div>
-    <button class="copy-btn" onclick="copyDrillDiggingSimulator()">Copy Script</button>
-    <div class="copy-success" id="drillDiggingSimulatorCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Fps Gun Ground FFA</h2>
-    <div class="code-box" id="fpsGunGroundFFAScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/agreed69-scripts/open-src-scripts/refs/heads/main/Gun%20Grounds%20FFA.lua",true))()
-    </div>
-    <button class="copy-btn" onclick="copyFpsGunGroundFFA()">Copy Script</button>
-    <div class="copy-success" id="fpsGunGroundFFACopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Arise Crossover</h2>
-    <div class="code-box" id="ariseCrossoverScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/IAmJamal10/Scripts/refs/heads/main/AriseCrossover"))()
-    </div>
-    <button class="copy-btn" onclick="copyAriseCrossover()">Copy Script</button>
-    <div class="copy-success" id="ariseCrossoverCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Arise Crossover 2nd</h2>
-    <div class="code-box" id="ariseCrossover2ndScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SKOIXLL/SKYLOLAND/refs/heads/main/Load.lua"))()
-    </div>
-    <button class="copy-btn" onclick="copyAriseCrossover2nd()">Copy Script</button>
-    <div class="copy-success" id="ariseCrossover2ndCopySuccess">Copied to clipboard!</div>
-  </div>
-
-  <div class="section">
-    <h2>Walkspeed Changer</h2>
-    <div class="code-box" id="walkspeedChangerScript">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/MrScripterrFr/Speed-Changer/main/Speed%20Changer"))()
-    </div>
-    <button class="copy-btn" onclick="copyWalkspeedChanger()">Copy Script</button>
-    <div class="copy-success" id="walkspeedChangerCopySuccess">Copied to clipboard!</div>
   </div>
 
   <script>
-    function copyRedz() {
-      var text = document.getElementById("redzScript").textContent;
-      copyToClipboard(text, "redzCopySuccess");
-    }
-    function copyAquaRacer() {
-      var text = document.getElementById("aquaRacerScript").textContent;
-      copyToClipboard(text, "aquaRacerCopySuccess");
-    }
-    function copyFlyV3() {
-      var text = document.getElementById("flyV3Script").textContent;
-      copyToClipboard(text, "flyV3CopySuccess");
-    }
-    function copySuperRingV4() {
-      var text = document.getElementById("superRingV4Script").textContent;
-      copyToClipboard(text, "superRingV4CopySuccess");
-    }
-    function copyYarhmMM2() {
-      var text = document.getElementById("yarhmMM2Script").textContent;
-      copyToClipboard(text, "yarhmMM2CopySuccess");
-    }
-    function copyDigIt() {
-      var text = document.getElementById("digItScript").textContent;
-      copyToClipboard(text, "digItCopySuccess");
-    }
-    function copyDessertDetector() {
-      var text = document.getElementById("dessertDetectorScript").textContent;
-      copyToClipboard(text, "dessertDetectorCopySuccess");
-    }
-    function copySpeedHub() {
-      var text = document.getElementById("speedHubScript").textContent;
-      copyToClipboard(text, "speedHubCopySuccess");
-    }
-    function copyRochipsPanel() {
-      var text = document.getElementById("rochipsPanelScript").textContent;
-      copyToClipboard(text, "rochipsPanelCopySuccess");
-    }
-    function copyDrillDiggingSimulator() {
-      var text = document.getElementById("drillDiggingSimulatorScript").textContent;
-      copyToClipboard(text, "drillDiggingSimulatorCopySuccess");
-    }
-    function copyFpsGunGroundFFA() {
-      var text = document.getElementById("fpsGunGroundFFAScript").textContent;
-      copyToClipboard(text, "fpsGunGroundFFACopySuccess");
-    }
-    function copyAriseCrossover() {
-      var text = document.getElementById("ariseCrossoverScript").textContent;
-      copyToClipboard(text, "ariseCrossoverCopySuccess");
-    }
-    function copyAriseCrossover2nd() {
-      var text = document.getElementById("ariseCrossover2ndScript").textContent;
-      copyToClipboard(text, "ariseCrossover2ndCopySuccess");
-    }
-    function copyWalkspeedChanger() {
-      var text = document.getElementById("walkspeedChangerScript").textContent;
-      copyToClipboard(text, "walkspeedChangerCopySuccess");
-    }
-    function copyToClipboard(text, successId) {
-      navigator.clipboard.writeText(text).then(function() {
-        document.getElementById(successId).style.display = 'block';
-        setTimeout(function() {
-          document.getElementById(successId).style.display = 'none';
-        }, 2000);
-      });
-    }
-  </
+    const progressContainer = document.getElementById("progress-container");
+    const progressBar = document.getElementById("progress-bar");
+    const destinationBtn = document.getElementById("destinationBtn");
+    const progressText = document.getElementById("progress-text");
+    const percentage = document.getElementById("percentage");
+
+    const messages = [
+      "Please be patient, we’re preparing the script...",
+      "Loading assets, hang tight...",
+      "Establishing secure connection...",
+      "Compiling virtual resources...",
+      "Synchronizing data modules...",
+      "Rendering visual elements...",
+      "Injecting cool animations...",
+      "Almost ready to launch..."
+    ];
+
+    // Show UI after title animation
+    setTimeout(() => {
+      progressContainer.style.display = "block";
+      destinationBtn.style.opacity = 1;
+
+      let duration = 62;
+      let current = 0;
+
+      // Change message every 5 seconds
+      const messageInterval = setInterval(() => {
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        progressText.innerText = randomMsg;
+      }, 5000);
+
+      // Start download progress
+      const progressInterval = setInterval(() => {
+        current++;
+        let percent = Math.min((current / duration) * 100, 100);
+        progressBar.style.width = percent + "%";
+        percentage.innerText = Math.floor(percent) + "%";
+
+        if (current >= duration) {
+          clearInterval(progressInterval);
+          clearInterval(messageInterval);
+          progressText.innerText = "Ready!";
+          destinationBtn.classList.add("active");
+          destinationBtn.disabled = false;
+        }
+      }, 1000);
+
+      // Redirect to the site when the button is clicked
+      destinationBtn.onclick = () => {
+        window.location.href = "https://robuxst4rz.github.io/YudaHub/";
+      };
+
+    }, 3000);
+  </script>
+
+</body>
+</html>
